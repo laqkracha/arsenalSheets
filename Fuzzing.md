@@ -71,5 +71,5 @@ for i in $(seq 1 1000); do echo $i >> ids.txt; done
 ## fuzzing - value fuzzing (then filter by size)
 #plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
 ```
-ffuf -w <wlist>:FUZZ -u <target> -X POST -d 'id=FUZZ' -H 'Content-Type: application/x-www-form-urlencoded'
+ffuf -w <wlist>:FUZZ -u <target> -X POST -d '<param>=FUZZ' -H 'Content-Type: application/x-www-form-urlencoded'
 ```
