@@ -23,7 +23,7 @@ ffuf -w <wlist>:FUZZ -u <targetURL>/FUZZ.<ext>
 ## fuzzing - recursive
 #plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
 ```
-ffuf -w <wlist>:FUZZ -u <targetURL>/FUZZ -recursion -recursion-depth <depth>
+ffuf -w <wlist>:FUZZ -u <targetURL>/FUZZ -recursion -recursion-depth <depth> -v
 ```
 
 ## fuzzing - recursive with extension
