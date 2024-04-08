@@ -12,7 +12,7 @@ Alternatively you can add another specific path to arsenal editing the ```/arsen
 ```python
 CHEATS_PATHS = [
     join(BASEPATH, "cheats"), # DEFAULT
-    join(HOMEPATH, "docs/my_cheats")
+    join(HOMEPATH, "docs/my_cheats") # path to your sheets
 ]
 ```
 And there you go! ✅
