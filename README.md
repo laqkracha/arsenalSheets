@@ -18,6 +18,6 @@ CHEATS_PATHS = [
 And there you go! ✅
 
 ```bash
-git clone 
-cd 
+git clone https://github.com/laqkracha/arsenalSheets.git
+cd arsenalSheets
 ```
