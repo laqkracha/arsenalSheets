@@ -19,3 +19,15 @@ hashcat --force <passwordlist> -r <customrule> --stdout | sort -u > mut_password
 ```
 cat <mail.html> | sed 's/á/\&aacute;/g; s/é/\&eacute;/g; s/í/\&iacute;/g; s/ó/\&oacute;/g; s/ú/\&uacute;/g' > <outMail.html>
 ```
+
+## Ports list
+#plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
+```
+for port in {1..65535};do echo $port >> ports.txt;done
+```
+
+## URL encode with jq
+#plateform/linux #target/local #port/21 #protocol/ssh #cat/ATTACK/
+```
+echo "<text>" | jq -sRr @uri
+```
