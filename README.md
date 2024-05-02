@@ -6,18 +6,9 @@ In this repository, you'll find a treasure trove of handy commands for hacking.
 
 ## How to Use
 
-Just clone the repository, find your arsenal directory and put this bad boys there, then you just need to open arsenal and boom! your commands are there. 💥🤯
-Alternatively you can add another specific path to arsenal editing the ```/arsenal/modules/config.py``` in a section like this:
-
-```python
-CHEATS_PATHS = [
-    join(BASEPATH, "cheats"), # DEFAULT
-    join(HOMEPATH, "docs/my_cheats") # path to your sheets
-]
-```
-And there you go! ✅
+Just clone the repository, clone this repo and change the name of the folder to .cheats in your home path
 
 ```bash
 git clone https://github.com/laqkracha/arsenalSheets.git
-cd arsenalSheets
+mv arsenalSheets .cheats
 ```
