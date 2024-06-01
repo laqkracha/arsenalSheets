@@ -53,7 +53,7 @@ ffuf -w <wlist>:FUZZ -u <targetURL> -H 'Host: FUZZ.<targetDomain>'
 ## fuzzing - vHosts gobuster
 #plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
 ```
-gobuster vhost -u http://runner.htb -w wordlists/SecLists/Discovery/DNS/subdomains-top1million-20000.txt --append-domain
+gobuster vhost -u <targetURL> -w <wlist> --append-domain
 ```
 
 ## fuzzing - GET request fuzzing (then filter by size)
