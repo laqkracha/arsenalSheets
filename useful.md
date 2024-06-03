@@ -31,3 +31,9 @@ for port in {1..65535};do echo $port >> ports.txt;done
 ```
 echo "<text>" | jq -sRr @uri
 ```
+
+## php webserver
+#plateform/linux #target/local #port/21 #protocol/ssh #cat/ATTACK/
+```
+sudo php -S 0.0.0.0:80
+```
