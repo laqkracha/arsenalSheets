@@ -117,31 +117,31 @@ cewl -m5 --lowercase -w wordlist.txt http://<target>
 ## fuzzing - directories
 #plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
 ```
-ffuf -u <targetURL>/FUZZ -w <wlist>
+ffuf -u <targetURL>/FUZZ -w <wlist> -ic -c
 ```
 
 ## fuzzing - pages - extension
 #plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
 ```
-ffuf -w <wlist>:FUZZ -u <targetURL>/<page>FUZZ
+ffuf -w <wlist>:FUZZ -u <targetURL>/<page>FUZZ -ic -c
 ```
 
 ## fuzzing - page - page
 #plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
 ```
-ffuf -w <wlist>:FUZZ -u <targetURL>/FUZZ.<ext>
+ffuf -w <wlist>:FUZZ -u <targetURL>/FUZZ.<ext> -ic -c
 ```
 
 ## fuzzing - recursive
 #plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
 ```
-ffuf -w <wlist>:FUZZ -u <targetURL>/FUZZ -recursion -recursion-depth <depth> -v
+ffuf -w <wlist>:FUZZ -u <targetURL>/FUZZ -recursion -recursion-depth <depth> -v -ic -c
 ```
 
 ## fuzzing - recursive with extension
 #plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
 ```
-ffuf -w <wlist>:FUZZ -u <targetURL>/FUZZ -recursion -recursion-depth <depth> -e .<ext> -v
+ffuf -w <wlist>:FUZZ -u <targetURL>/FUZZ -recursion -recursion-depth <depth> -e .<ext> -v -ic -c
 ```
 
 ## dns record to /etc/hosts
@@ -153,31 +153,31 @@ sudo sh -c 'echo "<IP>  <sub.domain.xxx>" >> /etc/hosts'
 ## fuzzing - subdomains
 #plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
 ```
-ffuf -w <wlist>:FUZZ -u https://FUZZ.<targetDomain>/
+ffuf -w <wlist>:FUZZ -u https://FUZZ.<targetDomain>/ -ic -c
 ```
 
 ## fuzzing - vHosts ffuf
 #plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
 ```
-ffuf -w <wlist>:FUZZ -u <targetURL> -H 'Host: FUZZ.<targetDomain>'
+ffuf -w <wlist>:FUZZ -u <targetURL> -H 'Host: FUZZ.<targetDomain>' -ic -c
 ```
 
 ## fuzzing - vHosts gobuster
 #plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
 ```
-gobuster vhost -u <targetURL> -w <wlist> --append-domain
+gobuster vhost -u <targetURL> -w <wlist> --append-domain -ic -c
 ```
 
 ## fuzzing - GET request fuzzing (then filter by size)
 #plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
 ```
-ffuf -w <wlist>:FUZZ -u '<target>/<file>?FUZZ=key'
+ffuf -w <wlist>:FUZZ -u '<target>/<file>?FUZZ=key' -ic -c
 ```
 
 ## fuzzing - POST request fuzzing (then filter by size)
 #plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
 ```
-ffuf -w <wlist>:FUZZ -u <target> -X POST -d 'FUZZ=key' -H 'Content-Type: application/x-www-form-urlencoded'
+ffuf -w <wlist>:FUZZ -u <target> -X POST -d 'FUZZ=key' -H 'Content-Type: application/x-www-form-urlencoded' -ic -c
 ```
 
 ## fuzzing - get numbers 1-1000
@@ -189,7 +189,7 @@ for i in $(seq 1 1000); do echo $i >> ids.txt; done
 ## fuzzing - value fuzzing (then filter by size)
 #plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
 ```
-ffuf -w <wlist>:FUZZ -u <target> -X POST -d '<param>=FUZZ' -H 'Content-Type: application/x-www-form-urlencoded'
+ffuf -w <wlist>:FUZZ -u <target> -X POST -d '<param>=FUZZ' -H 'Content-Type: application/x-www-form-urlencoded' -ic -c
 ```
 
 ## XSS - xsstrike
