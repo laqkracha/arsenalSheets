@@ -153,7 +153,7 @@ sudo sh -c 'echo "<IP>  <sub.domain.xxx>" >> /etc/hosts'
 ## fuzzing - subdomains
 #plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
 ```
-ffuf -w <wlist>:FUZZ -u https://FUZZ.<targetDomain>/ -ic -c
+ffuf -w <wlist>:FUZZ -u http<s>://FUZZ.<targetDomain>/ -ic -c
 ```
 
 ## fuzzing - vHosts ffuf
