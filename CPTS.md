@@ -1191,17 +1191,5 @@ mssqlclient.py -p 1433 <username>@<IP>
 ## attacking common services - sql - mssql sqsh domain
 #plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
-sqsh -S <IP> -U <. or server name>\\<username> -P '<password>' -h
-```
-
-## 
-#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
-```
-
-```
-
-## 
-#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
-```
-
+sqsh -S <IP> -U <serverName/.>\\<username> -P '<password>' -h
 ```
