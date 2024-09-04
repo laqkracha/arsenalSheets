@@ -1131,7 +1131,7 @@ nxc smb <IP> -u <username> -H <NThash>
 ## attacking common services - smb - Forced Authentication - reponder server
 #plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
-responder -I <interface name>
+responder -I <interface>
 ```
 
 ## attacking common services - smb - Forced Authentication - cracking responder hashes
