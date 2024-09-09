@@ -1500,3 +1500,75 @@ sudo bash -c 'echo -e "<*.domain.com>  A  <ip>" >> /etc/ettercap/etter.dns'
 5. After a successful DNS spoof attack, if a victim user coming from the target machine 192.168.152.129 visits the inlanefreight.com domain on a web browser, they will be redirected to a Fake page that is hosted on IP address 192.168.225.110
 6. In addition, a ping coming from the target IP address 192.168.152.129 to inlanefreight.com should be resolved to 192.168.225.110 as well
 ```
+
+## attacking common services - smtp - host MX records 
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+host -t MX <domain>
+```
+
+## attacking common services - smtp - dig MX records
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+dig mx <domain> | grep "MX" | grep -v ";"
+```
+
+## attacking common services - smtp - host A records
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+host -t A <mailRecordDomain>
+```
+
+## attacking common services - smtp - nmap scan
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+sudo nmap -Pn -sV -sC -p25,143,110,465,587,993,995 <targetIP>
+```
+
+## attacking common services - smtp - connect to mail port
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+telnet <targetIP> <mailPort>
+```
+
+## attacking common services - smtp - Commands to enumerate users
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+VRFY <username>
+EXPN <username>
+MAIL FROM:<username>@<domain>
+RCPT TO:<username>
+
+POP3:
+USER <username>
+```
+
+## attacking common services - smtp - smtp-user-enum user enumeration
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+smtp-user-enum -M <VRFY-EXPN-RCPT> -U <usersList> -D <domain> -t <targetIP>
+```
+
+## attacking common services - smtp - o365spray validate office365 in use
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+python3 o365spray.py --validate --domain <domain>
+```
+
+## attacking common services - smtp - o365spray user enumeration
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+python3 o365spray.py --enum -U <usersList> --domain <domain>
+```
+
+## attacking common services - smtp - brute forcing
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+hydra -L <usersList> -p '<password>' -f <targetIP> <mail_protocol>
+```
+
+## attacking common services - smtp - o365spray password spraying
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+python3 o365spray.py --spray -U <usersList> -p '<password>' --count 1 --lockout 1 --domain <domain>
+```
