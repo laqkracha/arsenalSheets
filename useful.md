@@ -37,3 +37,9 @@ echo "<text>" | jq -sRr @uri
 ```
 sudo php -S 0.0.0.0:80
 ```
+
+## rustscan
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+rustscan -a <targetIP> --ulimit 3000 -- -sVC -Pn
+```
