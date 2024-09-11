@@ -313,13 +313,13 @@ sudo nmap <target> -sV -sC -p3306 --script mysql*
 ##  footprinting - MySQL - login test
 #plateform/linux #target/remote #port/3306 #protocol/mysql #cat/ATTACK/
 ```
-mysql -u root -h <target>
+mysql -u root -h <target> --ssl-verify-server-cert=0
 ```
 
 ##  footprinting - MySQL - login test using password
 #plateform/linux #target/remote #port/3306 #protocol/mysql #cat/ATTACK/
 ```
-mysql -u <user> -p<password> -h <target>
+mysql -u <user> -p<password> -h <target> --ssl-verify-server-cert=0
 ```
 
 ##  footprinting - MSSQL - nmap scripts
