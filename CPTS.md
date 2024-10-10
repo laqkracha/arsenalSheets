@@ -1648,7 +1648,7 @@ ssh -D <localPort> <username>@<IPaddressofTarget>
 ## pivtunnportf - Used to ensure socks configurations are in place.
 #plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
-# add, verify or modify line: socks4 127.0.0.1 9050
+add, verify or modify line: socks4 127.0.0.1 9050
 tail -4 /etc/proxychains.conf
 ```
 
